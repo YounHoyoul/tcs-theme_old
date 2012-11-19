@@ -36,7 +36,8 @@ function tcs_hp_custom_post_Portfolio() {
 		//'supports'      => array( 'title', 'editor', 'excerpt', 'custom-fields', 'comments', 'thumbnail', 'revision' ),
 		//'supports'      => array( 'title', 'editor', 'excerpt', 'comments', 'thumbnail', 'revision' ),
 		'supports'      => array( 'title', 'editor', 'excerpt', 'comments', 'revision' ),
-		//'taxonomies'    => array( 'post_tag', 'category '),
+		'taxonomies'    => array( 'post_tag', 'category'),
+		//'taxonomies'    => array( 'post_tag'),
 	);
 	register_post_type( 'portfolio', $args );
 }
@@ -93,6 +94,7 @@ function tcs_hp_taxonomies_portfolio() {
 		'hierarchical' => true,
 	);
 	register_taxonomy( 'portfolio_category', 'portfolio', $args );
+	//register_taxonomy_for_object_type('portfolio_category', 'portfolio');
 }
 add_action( 'init', 'tcs_hp_taxonomies_portfolio', 0 );
 

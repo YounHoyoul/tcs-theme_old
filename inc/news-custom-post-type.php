@@ -12,7 +12,7 @@ License: GPL2
 <?php
 function tcs_hp_custom_post_News() {
 	$labels = array(
-		'name'               => _x( 'Newses', 'post type general name' ),
+		'name'               => _x( 'News', 'post type general name' ),
 		'singular_name'      => _x( 'News', 'post type singular name' ),
 		'add_new'            => _x( 'Add New News', 'news' ),
 		'add_new_item'       => __( 'Add New News' ),
@@ -24,17 +24,18 @@ function tcs_hp_custom_post_News() {
 		'not_found'          => __( 'No News found' ),
 		'not_found_in_trash' => __( 'No News found in the Trash' ),
 		'parent_item_colon'  => '',
-		'menu_name'          => 'Newses'
+		'menu_name'          => 'News'
 	);
 	$args = array(
 		'labels'        => $labels,
-		'description'   => 'Holds our Newses and Newses specific data',
+		'description'   => 'Holds our News and News specific data',
 		'public'        => true,
 		'rewrite'       => array('slug' => 'news'),
 		'menu_position' => 5,
 		'supports'      => array( 'title', 'editor', 'excerpt', 'custom-fields', 'comments', 'thumbnail', 'revision' ),
 		'has_archive'   => true,
-		//'taxonomies'    => array( 'post_tag', 'category '),
+		//'taxonomies'    => array( 'post_tag', 'category'),
+		'taxonomies'    => array( 'post_tag'),
 	);
 	register_post_type( 'news', $args );
 }
@@ -61,11 +62,11 @@ add_filter( 'post_updated_messages', 'tcs_hp_updated_messages_news' );
 
 function tcs_hp_contextual_help_news( $contextual_help, $screen_id, $screen ) {
 	if ( 'news' == $screen->id ) {
-		$contextual_help = '<h2>Newses</h2>
-		<p>Newses show the details of the items that we have made so far. You can see a list of them on this page in reverse chronological order - the latest one we added is first.</p>
+		$contextual_help = '<h2>News</h2>
+		<p>News show the details of the items that we have made so far. You can see a list of them on this page in reverse chronological order - the latest one we added is first.</p>
 		<p>You can view/edit the details of each news by clicking on its name, or you can perform bulk actions using the dropdown menu and selecting multiple items.</p>';
 	} elseif ( 'edit-news' == $screen->id ) {
-		$contextual_help = '<h2>Editing Newses</h2>
+		$contextual_help = '<h2>Editing News</h2>
 		<p>This page allows you to view/modify news details. Please make sure to fill out the available boxes with the appropriate details.</p>';
 	}
 	return $contextual_help;

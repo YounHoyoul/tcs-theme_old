@@ -98,7 +98,7 @@ function tcs_hp_setup() {
 	
 	// Grab TCS Theme's Adspace Widget.
 	//require( get_template_directory() . '/inc/widgets.php' );
-	require( get_template_directory() . '/inc/portfolio-custom-post-type.php' );
+	require( get_template_directory() . '/inc/project-custom-post-type.php' );
 	require( get_template_directory() . '/inc/news-custom-post-type.php' );
 
 	// Add default posts and comments RSS feed links to <head>.
