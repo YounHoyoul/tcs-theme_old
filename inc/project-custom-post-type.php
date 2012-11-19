@@ -47,7 +47,7 @@ add_action( 'init', 'tcs_hp_custom_post_brandactivation' );
 
 function tcs_hp_updated_messages_brandactivation( $messages ) {
 	global $post, $post_ID;
-	$messages['portfolio'] = array(
+	$messages['brandactivation'] = array(
 		0 => '',
 		1 => sprintf( __('BrandActivation updated. <a href="%s">View BrandActivation</a>'), esc_url( get_permalink($post_ID) ) ),
 		2 => __('Custom field updated.'),
@@ -113,7 +113,7 @@ add_action( 'init', 'tcs_hp_custom_post_bespokesolution' );
 
 function tcs_hp_updated_messages_bespokesolution( $messages ) {
 	global $post, $post_ID;
-	$messages['portfolio'] = array(
+	$messages['bespokesolution'] = array(
 		0 => '',
 		1 => sprintf( __('BespokeSolution updated. <a href="%s">View BespokeSolution</a>'), esc_url( get_permalink($post_ID) ) ),
 		2 => __('Custom field updated.'),
@@ -179,7 +179,7 @@ add_action( 'init', 'tcs_hp_custom_post_digitalplatform' );
 
 function tcs_hp_updated_messages_digitalplatform( $messages ) {
 	global $post, $post_ID;
-	$messages['portfolio'] = array(
+	$messages['digitalplatform'] = array(
 		0 => '',
 		1 => sprintf( __('DigitalPlatform updated. <a href="%s">View DigitalPlatform</a>'), esc_url( get_permalink($post_ID) ) ),
 		2 => __('Custom field updated.'),
@@ -234,29 +234,34 @@ function tcs_hp_taxonomies_sevice() {
 add_action( 'init', 'tcs_hp_taxonomies_sevice', 0 );
 
 
-//Post Meta Boxes
-add_action( 'add_meta_boxes', 'tcs_hp_portfolio_date_box' );
-function tcs_hp_portfolio_date_box() {
+//Post Meta Boxes For Brand Activation
+add_action( 'add_meta_boxes', 'tcs_hp_brandactivation_additional_box' );
+function tcs_hp_brandactivation_additional_box() {
 	add_meta_box(
-		'tcs_hp_portfolio_date_box',
-		__( 'Portfolio Date', 'tcs_theme' ),
-		'tcs_hp_portfolio_date_box_content',
+		'tcs_hp_brandactivation_additional_box',
+		__( 'Additional Information', 'tcs_theme' ),
+		'tcs_hp_brandactivation_additional_box_content',
 		'brandactivation',
-		'side',
+		'normal',
 		'core'
 	);
 }
 
-function tcs_hp_portfolio_date_box_content($post){
+function tcs_hp_brandactivation_additional_box_content($post){
 ?>
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css" />
-	<style> .media-upload h2 { font-weight: bold; } </style>
+	<style> .media-upload h2 { font-weight: bold; } 
+		.brandactivation_textarea {
+			width:100%;
+			height:80px;
+		}
+	</style>
 	<script>
 	( function( $ ) {
 		$(document).ready(
 			function()
 			{
-				$( "#portfolio_date" ).datepicker();
+				$( "#brandactivation_date" ).datepicker();
 				/*
 				$('#upload_image_button').click(
 					function()
@@ -272,9 +277,24 @@ function tcs_hp_portfolio_date_box_content($post){
 	</script>
 
 <?php
-	wp_nonce_field( plugin_basename( __FILE__ ), 'tcs_hp_portfolio_date_box_content_nonce' );
-	echo '<label for="portfolio_date">Date :</label>';
-	echo '<input type="text" id="portfolio_date" name="portfolio_date" placeholder="enter a date" value="'.get_post_meta($post->ID,'portfolio_date',true).'">';
+	wp_nonce_field( plugin_basename( __FILE__ ), 'tcs_hp_brandactivation_additional_box_content' );
+	echo '<p><label for="brandactivation_date">Date :</label>';
+	echo '<input type="text" id="brandactivation_date" name="brandactivation_date" placeholder="enter a date" value="'.get_post_meta($post->ID,'brandactivation_date',true).'"></p>';
+	
+	echo '<p><label for="brandactivation_task">Task :</label></p>';
+	echo '<p><textarea id="brandactivation_task" name="brandactivation_task" class="brandactivation_textarea">'.get_post_meta($post->ID,'brandactivation_task',true).'</textarea></p>';
+	
+	echo '<p><label for="brandactivation_idea">Idea :</label></p>';
+	echo '<p><textarea id="brandactivation_idea" name="brandactivation_idea" class="brandactivation_textarea">'.get_post_meta($post->ID,'brandactivation_idea',true).'</textarea></p>';
+	
+	echo '<p><label for="brandactivation_campaign">Campaign :</label></p>';
+	echo '<p><textarea id="brandactivation_campaign" name="brandactivation_campaign" class="brandactivation_textarea">'.get_post_meta($post->ID,'brandactivation_campaign',true).'</textarea></p>';
+	
+	echo '<p><label for="brandactivation_success">Sucess :</label></p>';
+	echo '<p><textarea id="brandactivation_success" name="brandactivation_success" class="brandactivation_textarea">'.get_post_meta($post->ID,'brandactivation_success',true).'</textarea></p>';
+	
+	echo '<p><label for="brandactivation_location">Location :</label></p>';
+	echo '<p><textarea id="brandactivation_location" name="brandactivation_location" class="brandactivation_textarea">'.get_post_meta($post->ID,'brandactivation_location',true).'</textarea></p>';
 	/*
 ?>
 	<div class="media-upload">
@@ -304,11 +324,11 @@ function tcs_hp_admin_styles()
 add_action('admin_print_scripts', 'tcs_hp_admin_scripts');
 add_action('admin_print_styles', 'tcs_hp_admin_styles');
 
-add_action( 'save_post', 'tcs_hp_portfolio_date_box_save' );
-function tcs_hp_portfolio_date_box_save( $post_id ) {
+add_action( 'save_post', 'tcs_hp_brandactivation_addition_box_save' );
+function tcs_hp_brandactivation_addition_box_save( $post_id ) {
 	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
 	return;
-	if ( !wp_verify_nonce( $_POST['tcs_hp_portfolio_date_box_content_nonce'], plugin_basename( __FILE__ ) ) )
+	if ( !wp_verify_nonce( $_POST['tcs_hp_brandactivation_additional_box_content'], plugin_basename( __FILE__ ) ) )
 	return;
 	if ( 'brandactivation' == $_POST['post_type'] ) {
 		if ( !current_user_can( 'edit_page', $post_id ) )
@@ -317,8 +337,101 @@ function tcs_hp_portfolio_date_box_save( $post_id ) {
 		if ( !current_user_can( 'edit_post', $post_id ) )
 		return;
 	}
-	$portfolio_date = $_POST['portfolio_date'];
-	update_post_meta( $post_id, 'portfolio_date', $portfolio_date );
+	
+	//brandactivation_date
+	$brandactivation_date = $_POST['brandactivation_date'];
+	update_post_meta( $post_id, 'brandactivation_date', $brandactivation_date );
+	
+	//brandactivation_task
+	update_post_meta( $post_id, 'brandactivation_task', $_POST['brandactivation_task'] );
+	//brandactivation_idea
+	update_post_meta( $post_id, 'brandactivation_idea', $_POST['brandactivation_idea'] );
+	//brandactivation_campaign
+	update_post_meta( $post_id, 'brandactivation_campaign', $_POST['brandactivation_campaign'] );
+	//brandactivation_success
+	update_post_meta( $post_id, 'brandactivation_success', $_POST['brandactivation_success'] );
+	//brandactivation_location
+	update_post_meta( $post_id, 'brandactivation_location', $_POST['brandactivation_location'] );
+}
+
+//Post Meta Boxes For Bespoke Solution
+add_action( 'add_meta_boxes', 'tcs_hp_bespokesolution_additional_box' );
+function tcs_hp_bespokesolution_additional_box() {
+	add_meta_box(
+		'tcs_hp_bespokesolution_additional_box',
+		__( 'Additional Information', 'tcs_theme' ),
+		'tcs_hp_bespokesolution_additional_box_content',
+		'bespokesolution',
+		'normal',
+		'core'
+	);
+}
+
+function tcs_hp_bespokesolution_additional_box_content($post){
+?>
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css" />
+	<style> .media-upload h2 { font-weight: bold; } 
+		.bespokesolution_textarea {
+			width:100%;
+			height:80px;
+		}
+	</style>
+	<script>
+	( function( $ ) {
+		$(document).ready(
+			function()
+			{
+				$( "#bespokesolution_date" ).datepicker();
+			}
+		);
+	})( jQuery );
+	</script>
+
+<?php
+	wp_nonce_field( plugin_basename( __FILE__ ), 'tcs_hp_bespokesolution_additional_box_content' );
+	echo '<p><label for="bespokesolution_date">Date :</label>';
+	echo '<input type="text" id="bespokesolution_date" name="bespokesolution_date" placeholder="enter a date" value="'.get_post_meta($post->ID,'bespokesolution_date',true).'"></p>';
+	
+	echo '<p><label for="bespokesolution_challenge">Challenge :</label></p>';
+	echo '<p><textarea id="bespokesolution_challenge" name="bespokesolution_challenge" class="bespokesolution_textarea">'.get_post_meta($post->ID,'bespokesolution_challenge',true).'</textarea></p>';
+	
+	echo '<p><label for="bespokesolution_solution">Solution :</label></p>';
+	echo '<p><textarea id="bespokesolution_solution" name="bespokesolution_solution" class="bespokesolution_textarea">'.get_post_meta($post->ID,'bespokesolution_solution',true).'</textarea></p>';
+	
+	echo '<p><label for="bespokesolution_achieve">How did we achieve this :</label></p>';
+	echo '<p><textarea id="bespokesolution_achieve" name="bespokesolution_achieve" class="bespokesolution_textarea">'.get_post_meta($post->ID,'bespokesolution_achieve',true).'</textarea></p>';
+	
+	echo '<p><label for="bespokesolution_result">Result :</label></p>';
+	echo '<p><textarea id="bespokesolution_result" name="bespokesolution_result" class="bespokesolution_textarea">'.get_post_meta($post->ID,'bespokesolution_result',true).'</textarea></p>';
+}
+
+add_action( 'save_post', 'tcs_hp_bespokesolution_addition_box_save' );
+function tcs_hp_bespokesolution_addition_box_save( $post_id ) {
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
+	return;
+	if ( !wp_verify_nonce( $_POST['tcs_hp_bespokesolution_additional_box_content'], plugin_basename( __FILE__ ) ) )
+	return;
+	if ( 'bespokesolution' == $_POST['post_type'] ) {
+		if ( !current_user_can( 'edit_page', $post_id ) )
+		return;
+	} else {
+		if ( !current_user_can( 'edit_post', $post_id ) )
+		return;
+	}
+	
+	//bespokesolution_date
+	$bespokesolution_date = $_POST['bespokesolution_date'];
+	update_post_meta( $post_id, 'bespokesolution_date', $bespokesolution_date );
+	
+	//bespokesolution_challenge
+	update_post_meta( $post_id, 'bespokesolution_challenge', $_POST['bespokesolution_challenge'] );
+	//bespokesolution_solution
+	update_post_meta( $post_id, 'bespokesolution_solution', $_POST['bespokesolution_solution'] );
+	//bespokesolution_achieve
+	update_post_meta( $post_id, 'bespokesolution_achieve', $_POST['bespokesolution_achieve'] );
+	//bespokesolution_result
+	update_post_meta( $post_id, 'bespokesolution_result', $_POST['bespokesolution_result'] );
+
 }
 
 ?>
